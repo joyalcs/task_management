@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+        <hr>
+    </div>
+</div>
+<!-- <div class="row my-5">
+    <div class="col-12">
+        <h4>Quick Actions</h4>
+        <div class="btn-group" role="group">
+            {% if user.role == 'superadmin' %}
+            <a href="{% url 'task:user_management' %}" class="btn btn-primary">
+                <i class="fas fa-user-plus"></i> Create User
+            </a>
+            <a href="{% url 'task:admin_management' %}" class="btn btn-success">
+                <i class="fas fa-user-shield"></i> Create Admin
+            </a>
+            {% endif %}
+            <a href="" class="btn btn-warning">
+                <i class="fas fa-plus"></i> Create Task
+            </a>
+            <a href="" class="btn btn-info">
+                <i class="fas fa-chart-bar"></i> View Reports
+            </a>
+        </div>
+    </div>
+</div>   -->
+
+<div class="row">
+    {% if user.role == 'superadmin' %}
+    <div class="col-md-3">
+    <a href="{% url 'task:user_management' %}" style="text-decoration: none; color: inherit;">
+        <div class="card bg-light text-black border border-2 rounded">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5>Total Users</h5>
+                        <h2>{{ total_users }}</h2>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+    </div>
+    <div class="col-md-3">
+        <a href="{% url 'task:admin_management' %}" style="text-decoration: none; color: inherit;">
+            <div class="card bg-light text-black border border-2 rounded">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5>Total Admins</h5>
+                        <h2>{{ total_admins }}</h2>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-user-shield fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </a>
+        
+    </div>
+    {% else %}
+    <div class="col-md-3">
+        <div class="card bg-light text-black border border-2 rounded">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5>Assigned Users</h5>
+                        <h2>{{ assigned_users }}</h2>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="col-md-3">
+        <div class="card bg-light text-black border border-2 rounded">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5>Total Tasks</h5>
+                        <h2>{{ total_tasks }}</h2>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-tasks fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-light text-black border border-2 rounded">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5>Completed Tasks</h5>
+                        <h2>{{ completed_tasks }}</h2>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

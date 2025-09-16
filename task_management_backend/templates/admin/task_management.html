@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Task Management{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2><i class="fas fa-tasks"></i> Task Management</h2>
+            <a href="{% url 'task:create_task' %}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Create Task
+            </a>
+        </div>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Assigned To</th>
+                                <th>Status</th>
+                                <th>Due Date</th>
+                                <th>Created By</th>
+                                <th>Created At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for task in tasks %}
+                            <tr>
+                                <td>
+                                    <strong>{{ task.title }}</strong>
+                                    <br><small class="text-muted">{{ task.description|truncatechars:50 }}</small>
+                                </td>
+                                <td>{{ task.assigned_to.username }}</td>
+                                <td>
+                                    {% if task.status == 'pending' %}
+                                        <span class="badge bg-warning">Pending</span>
+                                    {% elif task.status == 'in_progress' %}
+                                        <span class="badge bg-info">In Progress</span>
+                                    {% else %}
+                                        <span class="badge bg-success">Completed</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ task.due_date }}</td>
+                                <td>{{ task.created_by.username }}</td>
+                                <td>{{ task.created_at|date:"M d, Y" }}</td>
+                                <td>
+                                    {% if task.status == 'completed' %}
+                                        <a href="{% url 'task:task_reports' %}" class="btn btn-sm btn-info">
+                                            <i class="fas fa-eye"></i> View Report
+                                        </a>
+                                    {% else %}
+                                        <span class="text-muted">No report</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center">No tasks found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

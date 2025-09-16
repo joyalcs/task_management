@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}Task Reports{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2><i class="fas fa-chart-bar"></i> Task Completion Reports</h2>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Task Title</th>
+                                <th>Assigned To</th>
+                                <th>Worked Hours</th>
+                                <th>Completion Date</th>
+                                <th>Completion Report</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for task in tasks %}
+                            <tr>
+                                <td><strong>{{ task.title }}</strong></td>
+                                <td>{{ task.assigned_to.username }}</td>
+                                <td>
+                                    <span class="badge bg-primary">{{ task.worked_hours }} hours</span>
+                                </td>
+                                <td>{{ task.updated_at|date:"M d, Y H:i" }}</td>
+                                <td>
+                                    <div class="report-text">
+                                        {{ task.completion_report|truncatechars:100 }}
+                                        {% if task.completion_report|length > 100 %}
+                                            <button class="btn btn-sm btn-link p-0" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#reportModal{{ task.id }}">
+                                                Read more...
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Modal for full report -->
+                            <div class="modal fade" id="reportModal{{ task.id }}" tabindex="-1">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Completion Report - {{ task.title }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><strong>Task:</strong> {{ task.title }}</p>
+                                            <p><strong>Assigned To:</strong> {{ task.assigned_to.username }}</p>
+                                            <p><strong>Worked Hours:</strong> {{ task.worked_hours }} hours</p>
+                                            <p><strong>Completion Date:</strong> {{ task.updated_at|date:"M d, Y H:i" }}</p>
+                                            <hr>
+                                            <h6>Completion Report:</h6>
+                                            <p class="report-content">{{ task.completion_report }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center">No completed tasks found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
