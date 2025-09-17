@@ -19,7 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('task-management-admin/', admin.site.urls),
-    path("task/", include('task.urls', namespace='tasks')),
+    path("", include('task.urls', namespace='tasks')),
     
     path('api/v1/task/', include('api.v1.tasks.urls', namespace="api_v1_tasks"))
 ]
